@@ -1,6 +1,6 @@
 # ADR 0001: Daily ingestion and orchestration design
 
-- **Status:** Accepted (2026-11-25)
+- **Status:** Accepted (2026-11-25); amended by [ADR 0002](0002-raw-layer-conventions.md) (category_translation is a raw table)
 - **Date:** 2026-11-25
 
 ## Context
@@ -29,7 +29,7 @@ A small Python job plays the history forward one business day per run. For simul
 | order_items, order_payments | rows for orders purchased on D | Fixed at checkout |
 | order_reviews | reviews with `review_creation_date` = D | Reviews arrive days after delivery |
 | customers, products, sellers | rows first referenced on D | New dimension members appear over time |
-| category_translation | dbt **seed** (static reference data) | Not a feed |
+| category_translation | raw source table, loaded once (amended by ADR 0002, R9). Our 2 added translations go in a dbt seed | Not a feed |
 
 This gives incremental models, `merge` on a unique key, late-arriving facts and snapshots
 (order-status history) a real reason to exist, instead of being demo features on a static table.

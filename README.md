@@ -6,7 +6,7 @@ An end-to-end analytics engineering project on the
 layered dbt models with explicit grain, data-quality tests, CI, a BI layer that
 reconciles with the warehouse and, later, a read-only AI analyst.
 
-> **Status:** Phase 0, dataset profiling. See [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md).
+> **Status:** Phase 2 done: Olist snapshot loaded into Snowflake RAW and reconciled. See [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md).
 
 ## Architecture
 
@@ -24,6 +24,7 @@ flowchart LR
     GH -.-> STG
 ```
 
+Raw-layer rules (all VARCHAR, load metadata, audit table) are in [ADR 0002](docs/adr/0002-raw-layer-conventions.md).
 The daily-ingestion and orchestration design is in
 [ADR 0001](docs/adr/0001-daily-ingestion-and-orchestration.md).
 
@@ -31,10 +32,10 @@ The daily-ingestion and orchestration design is in
 
 ```
 enterprise_platform/
-├── ingestion/olist_ingest/   # Python: download, profiling (later: replay, load)
+├── ingestion/olist_ingest/   # Python: download, profiling, Snowflake load (later: replay)
 ├── data/                     # local only, gitignored
 ├── docs/                     # inventory, ADRs, findings, status
-├── infra/snowflake/          # (Phase 1) database, roles, warehouse SQL
+├── infra/snowflake/          # database, roles, warehouse SQL (run by an admin)
 ├── transform/                # (Phase 3) dbt project
 ├── bi/                       # (Phase 11) Power BI .pbip project
 └── .github/workflows/        # (Phase 10) CI + daily pipeline
@@ -53,6 +54,10 @@ pip install -e ".[dev]"
 Copy-Item .env.example .env        # then paste your Kaggle token into .env
 python -m olist_ingest.download    # -> data/raw/olist/snapshot_date=YYYY-MM-DD/
 python -m olist_ingest.profiling   # -> docs/data_inventory.md
+
+# Snowflake (after infra/snowflake 01-06 and the SNOWFLAKE_* values in .env)
+python -m olist_ingest.snowflake_conn   # connection + privilege smoke test
+python -m olist_ingest.load            # PUT + COPY INTO OLIST_RAW.OLIST, reconciled -> docs/phase2_load_reconciliation.md
 ```
 
 ## Conventions
