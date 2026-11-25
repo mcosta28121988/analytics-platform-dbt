@@ -7,7 +7,8 @@ dependencies = [
     "kaggle>=1.7",
     "pandas>=2.2",
     "python-dotenv>=1.0",
-    "six>=1.16",  # kaggle 2.2.5 imports six but does not declare it
+    "six>=1.16",
+    "snowflake-connector-python>=5.0",  # kaggle 2.2.5 imports six but does not declare it
 ]
 
 [project.optional-dependencies]
