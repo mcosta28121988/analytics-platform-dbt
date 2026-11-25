@@ -1,0 +1,24 @@
+[project]
+name = "olist-analytics-platform"
+version = "0.1.0"
+description = "Ingestion and data-quality tooling for the Olist analytics platform"
+requires-python = ">=3.11"
+dependencies = [
+    "kaggle>=1.7",
+    "pandas>=2.2",
+    "python-dotenv>=1.0",
+    "six>=1.16",  # kaggle 2.2.5 imports six but does not declare it
+]
+
+[project.optional-dependencies]
+dev = ["ruff>=0.6"]
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["ingestion"]
+
+[tool.ruff]
+line-length = 100

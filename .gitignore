@@ -1,0 +1,41 @@
+# --- Secrets: never commit ---------------------------------------------
+.env
+.env.*
+!.env.example
+kaggle.json
+access_token
+*.p8
+*.pem
+*.key
+profiles.yml
+
+# --- Data: source data is downloaded, never versioned -------------------
+# (Olist is CC BY-NC-SA licensed; we reference it, we don't redistribute it)
+data/*
+!data/README.md
+
+# --- Python -------------------------------------------------------------
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ruff_cache/
+.pytest_cache/
+
+# --- dbt ----------------------------------------------------------------
+transform/target/
+transform/dbt_packages/
+transform/logs/
+transform/.user.yml
+logs/
+
+# --- Power BI (we will commit the .pbip text format, not caches) --------
+*.pbix.bak
+**/.pbi/cache.abf
+**/.pbi/localSettings.json
+
+# --- OS / editor --------------------------------------------------------
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
