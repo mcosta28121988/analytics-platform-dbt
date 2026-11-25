@@ -8,6 +8,7 @@ access_token
 *.pem
 *.key
 profiles.yml
+.docs
 
 # --- Data: source data is downloaded, never versioned -------------------
 # (Olist is CC BY-NC-SA licensed; we reference it, we don't redistribute it)
